@@ -9,6 +9,7 @@ and data available [publically](https://docs.google.com/spreadsheet/ccc?key=0Aqe
 ```{r opts}
 library(RCurl)
 library(knitr)
+library(ggplot2)
 ```
 
 Load data.
@@ -43,7 +44,20 @@ superfoods[1:5,11:20]
 superdata <- superfoods[ , c("Food", "alternative name", "EVIDENCE", "condition", "HEALTH CONDITION", "TYPE", "One to watch", "POPULARITY", "NO OF STUDIES WE EXAMINED", "SCIENTIFIC INTEREST")]
 str(superdata)
 ```
-                                
+
+Plot
+
+```{r, fig.align='center'}
+# base plot
+barplot(superdata$EVIDENCE, horizontal = TRUE)
+
+# ggplot
+qplot(superdata$EVIDENCE)
+
+cor(superdata$EVIDENCE, superdata$POPULARITY)
+
+```
+
 ```{r close}
 sessionInfo()
 purl("superfoods_gamestorm.Rmd")
