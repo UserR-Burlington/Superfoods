@@ -49,13 +49,17 @@ Plot
 
 ```{r, fig.align='center'}
 # base plot
-barplot(superdata$EVIDENCE, horizontal = TRUE)
+barplot(superdata$EVIDENCE)
 
 # ggplot
-qplot(superdata$EVIDENCE)
+qplot(EVIDENCE, data=superdata)
 
-cor(superdata$EVIDENCE, superdata$POPULARITY)
+# point plot
+p <- ggplot(superdata, aes(Food, EVIDENCE))
+p + geom_point()
 
+p <- ggplot(superdata, aes(EVIDENCE, Food))
+p + geom_point()
 ```
 
 ```{r close}

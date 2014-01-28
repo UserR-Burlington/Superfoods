@@ -2,6 +2,7 @@
 ## ----opts----------------------------------------------------------------
 library(RCurl)
 library(knitr)
+library(ggplot2)
 
 
 ## ----loaddata------------------------------------------------------------
@@ -25,6 +26,21 @@ superfoods[1:5,11:20]
 
 superdata <- superfoods[ , c("Food", "alternative name", "EVIDENCE", "condition", "HEALTH CONDITION", "TYPE", "One to watch", "POPULARITY", "NO OF STUDIES WE EXAMINED", "SCIENTIFIC INTEREST")]
 str(superdata)
+
+
+## ----, fig.align='center'------------------------------------------------
+# base plot
+barplot(superdata$EVIDENCE)
+
+# ggplot
+qplot(EVIDENCE, data=superdata)
+
+# point plot
+p <- ggplot(superdata, aes(Food, EVIDENCE))
+p + geom_point()
+
+p <- ggplot(superdata, aes(EVIDENCE, Food))
+p + geom_point()
 
 
 ## ----close---------------------------------------------------------------

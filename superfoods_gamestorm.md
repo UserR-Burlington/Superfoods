@@ -12,12 +12,12 @@ library(RCurl)
 ```
 
 ```
-## Loading required package: methods
 ## Loading required package: bitops
 ```
 
 ```r
 library(knitr)
+library(ggplot2)
 ```
 
 
@@ -159,32 +159,89 @@ str(superdata)
 ##  $ SCIENTIFIC INTEREST      : int  28 28 152 131 101 27 160 79 701 171 ...
 ```
 
-                                
+
+Plot
+
+
+```r
+# base plot
+barplot(superdata$EVIDENCE)
+```
+
+<img src="figure/unnamed-chunk-11.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" />
+
+```r
+
+# ggplot
+qplot(EVIDENCE, data = superdata)
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+<img src="figure/unnamed-chunk-12.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" />
+
+```r
+
+# point plot
+p <- ggplot(superdata, aes(Food, EVIDENCE))
+p + geom_point()
+```
+
+```
+## Warning: font width unknown for character 0x8d
+## Warning: font width unknown for character 0x8d
+## Warning: font width unknown for character 0x8d
+## Warning: font width unknown for character 0x8d
+## Warning: font width unknown for character 0x8d
+```
+
+<img src="figure/unnamed-chunk-13.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" />
+
+```r
+
+p <- ggplot(superdata, aes(EVIDENCE, Food))
+p + geom_point()
+```
+
+```
+## Warning: font width unknown for character 0x8d
+## Warning: font width unknown for character 0x8d
+## Warning: font width unknown for character 0x8d
+## Warning: font width unknown for character 0x8d
+## Warning: font width unknown for character 0x8d
+## Warning: font width unknown for character 0x8d
+```
+
+<img src="figure/unnamed-chunk-14.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" />
+
+
 
 ```r
 sessionInfo()
 ```
 
 ```
-## R version 3.0.2 (2013-09-25)
-## Platform: i686-pc-linux-gnu (32-bit)
+## R version 3.0.1 (2013-05-16)
+## Platform: x86_64-apple-darwin10.8.0 (64-bit)
 ## 
 ## locale:
-##  [1] LC_CTYPE=en_CA.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_CA.UTF-8        LC_COLLATE=en_CA.UTF-8    
-##  [5] LC_MONETARY=en_CA.UTF-8    LC_MESSAGES=en_CA.UTF-8   
-##  [7] LC_PAPER=en_CA.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_CA.UTF-8 LC_IDENTIFICATION=C       
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 ## 
 ## attached base packages:
-## [1] methods   stats     graphics  grDevices utils     datasets  base     
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] RCurl_1.95-4.1 bitops_1.0-6   knitr_1.5     
+## [1] ggplot2_0.9.3.1 RCurl_1.95-4.1  bitops_1.0-6    knitr_1.5      
 ## 
 ## loaded via a namespace (and not attached):
-## [1] evaluate_0.5.1 formatR_0.10   stringr_0.6.2  tools_3.0.2
+##  [1] colorspace_1.2-4   dichromat_2.0-0    digest_0.6.3      
+##  [4] evaluate_0.5.1     formatR_0.10       grid_3.0.1        
+##  [7] gtable_0.1.2       labeling_0.2       MASS_7.3-29       
+## [10] munsell_0.4.2      plyr_1.8           proto_0.3-10      
+## [13] RColorBrewer_1.0-5 reshape2_1.2.2     scales_0.2.3      
+## [16] stringr_0.6.2      tools_3.0.1
 ```
 
 ```r
@@ -198,7 +255,7 @@ purl("superfoods_gamestorm.Rmd")
 ```
 
 ```
-##   |                                                                         |                                                                 |   0%  |                                                                         |.......                                                          |  11%  |                                                                         |..............                                                   |  22%  |                                                                         |......................                                           |  33%  |                                                                         |.............................                                    |  44%  |                                                                         |....................................                             |  56%  |                                                                         |...........................................                      |  67%  |                                                                         |...................................................              |  78%  |                                                                         |..........................................................       |  89%  |                                                                         |.................................................................| 100%
+##   |                                                                         |                                                                 |   0%  |                                                                         |......                                                           |   9%  |                                                                         |............                                                     |  18%  |                                                                         |..................                                               |  27%  |                                                                         |........................                                         |  36%  |                                                                         |..............................                                   |  45%  |                                                                         |...................................                              |  55%  |                                                                         |.........................................                        |  64%  |                                                                         |...............................................                  |  73%  |                                                                         |.....................................................            |  82%  |                                                                         |...........................................................      |  91%  |                                                                         |.................................................................| 100%
 ```
 
 ```

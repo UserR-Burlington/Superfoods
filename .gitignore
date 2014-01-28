@@ -6,3 +6,4 @@
 
 # Ignore temp files
 *~
+.Rproj.user
