@@ -51,9 +51,6 @@ Plot
 # base plot
 barplot(superdata$EVIDENCE)
 
-# ggplot
-qplot(EVIDENCE, data=superdata)
-
 # point plot
 p <- ggplot(superdata, aes(Food, EVIDENCE))
 p + geom_point()
