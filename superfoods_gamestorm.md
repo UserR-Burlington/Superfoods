@@ -8,14 +8,7 @@ and data available [publically](https://docs.google.com/spreadsheet/ccc?key=0Aqe
 
 
 ```r
-library(RCurl)
-```
-
-```
-## Loading required package: bitops
-```
-
-```r
+# library(RCurl)
 library(knitr)
 library(ggplot2)
 ```
@@ -31,24 +24,19 @@ For both, skip metadata rows then import row 2 as header.
                                 
 
 ```r
-myCSV <- getURL("https://docs.google.com/spreadsheet/pub?key=0Ar5IymziRJ_9dDl1aTdSRlZKakpnNXVjT2ZmVzdaQ1E&single=true&gid=2&output=csv")
-superfoods <- read.csv(textConnection(myCSV), skip = 3, header = FALSE, stringsAsFactors = FALSE)
-dim(superfoods)
-```
-
-```
-## [1] 144  38
-```
-
-```r
-superfoods_header <- read.csv(textConnection(myCSV), nrows = 1, stringsAsFactors = FALSE)
+# read data skip first 3 rows, then import first row as header
+superfoods <- read.csv("Superfood.csv", skip = 3, header = FALSE)
+superfoods_header <- read.csv("Superfood.csv", skip = 1, nrow = 1, header = FALSE, 
+    stringsAsFactors = FALSE)
 colnames(superfoods) <- superfoods_header
 
-# Alternatively (and more simply) load downloaded file saved as CSV skip
-# first 3 rows, then import first row as header superfoods <-
-# read.csv('Superfood.csv', skip = 3, header = FALSE) superfoods_header <-
-# read.csv('Superfood.csv', nrow = 1, header = FALSE, stringsAsFactors =
-# FALSE) colnames(superfoods) <- superfoods_header
+# For a challenge, download data from GoogleDocs using RCurl skip first 3
+# rows, then import first row as header myCSV <-
+# getURL('https://docs.google.com/spreadsheet/pub?key=0Ar5IymziRJ_9dDl1aTdSRlZKakpnNXVjT2ZmVzdaQ1E&single=true&gid=2&output=csv')
+# superfoods <- read.csv(textConnection(myCSV), skip = 3, header = FALSE,
+# stringsAsFactors = FALSE) dim(superfoods) superfoods_header <-
+# read.csv(textConnection(myCSV), nrows = 1, stringsAsFactors = FALSE)
+# colnames(superfoods) <- superfoods_header
 ```
 
 
@@ -68,12 +56,12 @@ superfoods[1:5, 1:10]
 ```
 
 ```
-##           Food alternative name EVIDENCE                   condition
-## 1 aÃ§aÃ­ berry                         0           cancer prevention
-## 2 aÃ§aÃ­ berry                         0              weight control
-## 3      alfalfa                         0      general health, cardio
-## 4      almonds                         5 cholesterol, general health
-## 5     amaranth                         3                cholesterol 
+##         Food alternative name EVIDENCE                   condition
+## 1 açaí berry                         0           cancer prevention
+## 2 açaí berry                         0              weight control
+## 3    alfalfa                         0      general health, cardio
+## 4    almonds                         5 cholesterol, general health
+## 5   amaranth                         3                cholesterol 
 ##         HEALTH CONDITION          TYPE One to watch POPULARITY
 ## 1                 cancer         fruit                    4382
 ## 2         general health         fruit                    4382
@@ -147,14 +135,14 @@ str(superdata)
 
 ```
 ## 'data.frame':	144 obs. of  10 variables:
-##  $ Food                     : chr  "aÃ§aÃ­ berry" "aÃ§aÃ­ berry" "alfalfa" "almonds" ...
-##  $ alternative name         : chr  "" "" "" "" ...
+##  $ Food                     : Factor w/ 111 levels "açaí berry","alfalfa",..: 1 1 2 3 4 5 6 7 8 9 ...
+##  $ alternative name         : Factor w/ 32 levels "","aamla berry, Indian gooseberry, Phyllanthus emblica",..: 1 1 1 1 1 2 30 1 1 1 ...
 ##  $ EVIDENCE                 : num  0 0 0 5 3 1 1 1 3 1 ...
-##  $ condition                : chr  "cancer prevention" "weight control" "general health, cardio" "cholesterol, general health" ...
-##  $ HEALTH CONDITION         : chr  "cancer" "general health" "general health, cardio" "cardio, general health" ...
-##  $ TYPE                     : chr  "fruit" "fruit" "vegetable" "nut / seed" ...
-##  $ One to watch             : chr  "" "" "OTW" "" ...
-##  $ POPULARITY               : chr  "4382" "4382" "3089" "3782" ...
+##  $ condition                : Factor w/ 82 levels "all conditions",..: 15 79 47 27 26 66 68 82 59 39 ...
+##  $ HEALTH CONDITION         : Factor w/ 33 levels "cancer","cardio",..: 1 12 16 6 3 18 32 31 12 10 ...
+##  $ TYPE                     : Factor w/ 10 levels "alga","animal product",..: 3 3 10 8 5 3 6 9 3 10 ...
+##  $ One to watch             : Factor w/ 2 levels "","OTW": 1 1 2 1 1 2 2 1 1 2 ...
+##  $ POPULARITY               : Factor w/ 109 levels "1,304","1010",..: 69 69 52 62 25 97 32 43 64 40 ...
 ##  $ NO OF STUDIES WE EXAMINED: int  0 0 0 11 0 1 1 4 3 1 ...
 ##  $ SCIENTIFIC INTEREST      : int  28 28 152 131 101 27 160 79 701 171 ...
 ```
@@ -172,32 +160,25 @@ barplot(superdata$EVIDENCE)
 
 ```r
 
-# ggplot
-qplot(EVIDENCE, data = superdata)
-```
-
-```
-## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
-```
-
-<img src="figure/unnamed-chunk-12.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" />
-
-```r
-
 # point plot
 p <- ggplot(superdata, aes(Food, EVIDENCE))
 p + geom_point()
 ```
 
 ```
-## Warning: font width unknown for character 0x8d
-## Warning: font width unknown for character 0x8d
-## Warning: font width unknown for character 0x8d
-## Warning: font width unknown for character 0x8d
-## Warning: font width unknown for character 0x8d
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <c5>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <8d>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <c5>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <8d>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <c5>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <8d>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <c5>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <8d>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <c5>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <8d>
 ```
 
-<img src="figure/unnamed-chunk-13.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" />
+<img src="figure/unnamed-chunk-12.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" />
 
 ```r
 
@@ -206,15 +187,21 @@ p + geom_point()
 ```
 
 ```
-## Warning: font width unknown for character 0x8d
-## Warning: font width unknown for character 0x8d
-## Warning: font width unknown for character 0x8d
-## Warning: font width unknown for character 0x8d
-## Warning: font width unknown for character 0x8d
-## Warning: font width unknown for character 0x8d
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <c5>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <8d>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <c5>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <8d>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <c5>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <8d>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <c5>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <8d>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <c5>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <8d>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <c5>
+## Warning: conversion failure on 'nattō' in 'mbcsToSbcs': dot substituted for <8d>
 ```
 
-<img src="figure/unnamed-chunk-14.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" />
+<img src="figure/unnamed-chunk-13.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" style="display: block; margin: auto;" />
 
 
 
@@ -233,7 +220,7 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_0.9.3.1 RCurl_1.95-4.1  bitops_1.0-6    knitr_1.5      
+## [1] ggplot2_0.9.3.1 knitr_1.5      
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] colorspace_1.2-4   dichromat_2.0-0    digest_0.6.3      
