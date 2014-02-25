@@ -3,7 +3,7 @@
 
 # Download the Superfoods.csv data, set the target directory as your working directory
 # Read in the data and tidy it up
-superfoods<-read.csv('Superfoods.csv',stringsAsFactors=FALSE)
+superfoods<-read.csv('Superfood.csv',stringsAsFactors=FALSE)
 colnames(superfoods)<-superfoods[1,]
 superfoods<-superfoods[-c(1,2),-c(26:38)]
 rownames(superfoods)<-1:nrow(superfoods)
