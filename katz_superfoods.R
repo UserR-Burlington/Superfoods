@@ -7,7 +7,7 @@ superfoods<-read.csv('Superfood.csv',stringsAsFactors=FALSE)
 colnames(superfoods)<-superfoods[1,]
 superfoods<-superfoods[-c(1,2),-c(26:38)]
 rownames(superfoods)<-1:nrow(superfoods)
-# All of the data types ar still wrong...easier to write it and read it in again to fix
+# All of the data types are wrong...easier to write it and read it in again to fix
 write.csv(superfoods,"superfoodsTidy.csv",row.names=FALSE)
 superfoods<-read.csv("superfoodsTidy.csv",stringsAsFactors=FALSE)
 # Some data types still need to be changed
