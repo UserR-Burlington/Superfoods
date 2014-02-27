@@ -7,7 +7,7 @@ superfoods<-read.csv('Superfood.csv',stringsAsFactors=FALSE)
 colnames(superfoods)<-superfoods[1,]
 superfoods<-superfoods[-c(1,2),-c(26:38)]
 rownames(superfoods)<-1:nrow(superfoods)
-# All of the data types are still wrong...easier to write it and read it in again to fix
+# All of the data types are wrong...easier to write it and read it in again to fix
 write.csv(superfoods,"superfoodsTidy.csv",row.names=FALSE)
 superfoods<-read.csv("superfoodsTidy.csv",stringsAsFactors=FALSE)
 # Some data types still need to be changed
@@ -35,7 +35,7 @@ superfoods['alphaX']<-1:nrow(superfoods)
 ##########################
 superSym<-function(){
     # Instructions
-    cat('To identify a bubble, left-click twice: once\nat upper left corner of label and once at\nlower right corner.  Right-click anywhere to\nreset plot.  Left-click twice away from a\nbubble to exit.\n')
+    cat('  To identify a bubble, left-click once at upper\n  left corner of label and once at lower right\n  corner--imagine you are defining a rectangle\n  with the upper-left and lower-right corners\n  that contains the center point of the circle.\n  Right-click anywhere to reset plot.\n\n  After you read this, maximize your graphics device!\n')
     # Create an infinite loop
     com<-"i"
     while(com=="i"){
@@ -46,8 +46,11 @@ superSym<-function(){
         layout(matrix(c(1,2),ncol=2,byrow=TRUE),widths=c(1,5))
         leg<-unique(superfoods[,c('color','TYPE')])
         par(mar=c(0,1,0,0))
-        plot(0,pch=NA,axes=FALSE,ylab=NA,xlab=NA,main=NA)
+        plot(0:10,0:10,pch=NA,axes=FALSE,ylab=NA,xlab=NA,main=NA)
         legend('left',legend=leg[,'TYPE'],fill=leg[,'color'],bty='n')
+        # Display an exit "button"
+        rect(0,1.5,10,2.5,col='lightblue')
+        text(x=5,y=2,labels='Double-Click\nHere To Exit')
         # Plot the superfoods data
         par(mar=c(0,6.1,0,0))
         symbols(
@@ -63,9 +66,9 @@ superSym<-function(){
         text(x=superfoods[,'alphaX'],y=superfoods[,26],labels=labels,pos=3,offset=0)
         # Another loop to allow multiple bubbles to grow and be compared
         loc<-"0"
-        while(length(loc)>0){
+        while(!is.null(loc)){
             loc<-locator(2,type="p",pch=3)
-            if(length(loc)>0){
+            if(all(!is.null(loc),loc$x[2] > -20)){
                 # Specify growth size
                 grow<-max(na.omit(superfoods[,'POPULARITY']))*3
                 # Pull highlighted point from table
@@ -83,8 +86,8 @@ superSym<-function(){
                     text(x=rowdat[,'alphaX'],y=rowdat[,26],labels=rowdat[,1],pos=3,offset=3)
                     text(x=rowdat[,'alphaX'],y=rowdat[,26],labels=rowdat[,4],pos=3,offset=2)
                     text(x=rowdat[,'alphaX'],y=rowdat[,26],labels=rowdat[,18],pos=3,offset=1)
-                } else return(cat('Exit.\n'))
-            }
-        }
+                } else cat('No Selection.\n')
+            } else if(all(!is.null(loc),loc$x[2] < -20)) return(cat('Exit.\n'))
+        } 
     } 
 }
